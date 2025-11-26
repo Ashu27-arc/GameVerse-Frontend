@@ -15,6 +15,10 @@ export default function GameCard({ game }) {
 
     const gameId = game.id || game._id;
     const imageUrl = game.image || game.background_image || "https://via.placeholder.com/400x300/1f2937/ffffff?text=No+Image";
+    const gameName = game.title || game.name;
+    
+    // FitGirl Repacks search URL
+    const fitgirlSearchUrl = `https://fitgirl-repacks.site/?s=${encodeURIComponent(gameName)}`;
 
     return (
         <div className="bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group">
@@ -22,7 +26,7 @@ export default function GameCard({ game }) {
                 <img
                     src={imageUrl}
                     className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-300"
-                    alt={game.title || game.name}
+                    alt={gameName}
                     onError={(e) => {
                         e.target.src = "https://via.placeholder.com/400x300/1f2937/ffffff?text=No+Image";
                     }}
@@ -30,7 +34,7 @@ export default function GameCard({ game }) {
             </Link>
 
             <div className="p-4">
-                <h3 className="font-bold text-lg truncate text-white mb-2">{game.title || game.name}</h3>
+                <h3 className="font-bold text-lg truncate text-white mb-2">{gameName}</h3>
                 
                 {(game.rating || game.rating_top) && (
                     <div className="flex items-center gap-2 mb-3">
@@ -39,14 +43,26 @@ export default function GameCard({ game }) {
                     </div>
                 )}
 
-                {token && (
-                    <button
-                        onClick={addFav}
-                        className="bg-red-600 w-full px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition"
+                <div className="space-y-2">
+                    {/* FitGirl Repacks Download Button */}
+                    <a
+                        href={fitgirlSearchUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-green-600 w-full px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition block text-center"
                     >
-                        ❤️ Add to Favorites
-                    </button>
-                )}
+                        📥 Download from FitGirl
+                    </a>
+
+                    {token && (
+                        <button
+                            onClick={addFav}
+                            className="bg-red-600 w-full px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition"
+                        >
+                            ❤️ Add to Favorites
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );
